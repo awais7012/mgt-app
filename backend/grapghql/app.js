@@ -2,11 +2,12 @@ const { ApolloServer } = require('@apollo/server');
 const gql = require('graphql-tag');
 const jwt = require('jsonwebtoken');
 const SECRET = 'secretkey'
-const { typeDef: userTypeDefs } = require('./users/types');
+const { typeDef: userTypeDefs, typeDef } = require('./users/types');
 const { resolvers: userResolvers } = require('./users/resolvers');
 const { typeDef: taskTypeDefs } = require('./tasks/types');
 const { resolvers: taskResolvers } = require('./tasks/resolvers');
-
+const { typeDef: teamTypeDefs } = require('./teams/types')
+const { resolvers: teamResolvers } = require('./teams/resolvers')
 const baseTypeDefs = gql`
   type Query {
     hello: String
@@ -21,18 +22,21 @@ const typeDefs = [
   baseTypeDefs,
   gql(userTypeDefs),
   gql(taskTypeDefs),
+  gql(teamTypeDefs)
 ];
 
 const combinedResolvers = {
   Query: {
-    hello: () => 'Hello world!',
-    ...userResolvers.Query,
-    ...taskResolvers.Query,
+    hello: () => 'Hello world!',         // Static dummy resolver
+    ...userResolvers.Query,              // Queries from users module
+    ...taskResolvers.Query,              // Queries from tasks module
+    // ...teamResolvers.Query               // Queries from teams module (optional)
   },
   Mutation: {
-    ping: () => 'Pong!',
-    ...userResolvers.Mutation,
-    ...taskResolvers.Mutation,
+    ping: () => 'Pong!',                 // Static dummy resolver
+    ...userResolvers.Mutation,           // Mutations from users module
+    ...taskResolvers.Mutation,           // Mutations from tasks module
+    ...teamResolvers.Mutation            // Mutations from teams module
   },
 };
 

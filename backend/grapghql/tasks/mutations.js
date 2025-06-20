@@ -1,6 +1,6 @@
-const db = require('./db')
-export const mutation = `#grapghql
-extend type Mutation {
-    createTask(input: CreateTaskInput!): CreateTaskResponse!
-}
-`
+// tasks/mutations.js
+exports.mutation = `#graphql
+  extend type Mutation {
+    someMutationHere: SomeReturnType!
+  }
+`;
