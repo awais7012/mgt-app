@@ -30,11 +30,17 @@ type CreateTaskResponse {
     assignedTeamID:ID
 }
 
+type getTaskAccessUserResponse{
+    userId:ID!
+    user_role:String!
+  }
+
+
 extend type Mutation {
     createTask(input: CreateTaskInput!): CreateTaskResponse!
 },
 extend type Query {
-  getTaskAccessUser: [User!]!
+  getTaskAccessUser: [getTaskAccessUserResponse!]!
 }
 
 `;

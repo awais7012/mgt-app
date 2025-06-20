@@ -7,11 +7,7 @@ exports.typeDef = `#graphql
     email: String!
     profileImageURL: String
   }
-  type getTaskAccessUserResponse{
-    userId:ID!
-    user_role:String!
-  }
-
+  
   type CreateUserResponse {
     success: Boolean!
     message: String!
@@ -40,4 +36,6 @@ exports.typeDef = `#graphql
   extend type Mutation{
     loginUser(input:loginUserInput):loginUserResponse!
   }
+  
+
 `;

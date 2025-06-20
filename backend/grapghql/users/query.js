@@ -1,7 +1,8 @@
-const { typeDef: userTypeDefs } = require('./users/types');
+// const { typeDef: userTypeDefs } = require('./users/types');
 
-exports.queryType = `#graphql
-  extend type Query {
-    getTaskAccessUser():getTaskAccessUserResponse!
-  }
-`;
+// exports.queryType = `#graphql
+//   extend type Query {
+//   getTaskAccessUser: [getTaskAccessUserResponse!]!
+// }
+
+// `;

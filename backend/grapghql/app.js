@@ -1,6 +1,7 @@
 const { ApolloServer } = require('@apollo/server');
 const gql = require('graphql-tag');
-
+const jwt = require('jsonwebtoken');
+const SECRET = 'secretkey'
 const { typeDef: userTypeDefs } = require('./users/types');
 const { resolvers: userResolvers } = require('./users/resolvers');
 const { typeDef: taskTypeDefs } = require('./tasks/types');
@@ -39,7 +40,24 @@ async function createGqlServer() {
   const server = new ApolloServer({
     typeDefs,
     resolvers: combinedResolvers,
+
+
+    context: async ({ req }) => {
+      const token = req.headers.authorization || '';
+      try {
+        const decoded = jwt.verify(token, SECRET);
+        return {
+          userId: decoded.userId,
+          userRole: decoded.userRole,
+          email: decoded.email,
+        };
+      } catch (err) {
+        console.warn('Invalid or missing token');
+        return {};
+      }
+    }
   });
+
   await server.start();
   return server;
 }

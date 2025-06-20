@@ -1,5 +1,5 @@
 const db = require('../../db');
-
+const taskAccess = require('../middleware/TaskAccess')
 exports.resolvers = {
     Mutation: {
         createTask: async (_, { input }) => {
@@ -18,6 +18,17 @@ exports.resolvers = {
                     message: "All required fields must be filled.",
                     assignedTeamID: null, // This must match your schema type if nullable
                 };
+
+            }
+            let canAccess = await taskAccess(assignedBy)
+            if (!canAccess) {
+
+                return {
+                    success: false,
+                    message: "Only Admins or TeamLeads can create tasks.",
+                    assignedTeamID: null,
+
+                }
             }
 
             try {
@@ -46,12 +57,22 @@ exports.resolvers = {
         getTaskAccessUser: async () => {
             try {
                 const [rows] = await db.promise().query('CALL getTaskAccessUsers()');
-                return rows[0];
+
+                const result = rows[0].map(user => ({
+                    userId: user.user_id,
+                    user_role: user.user_role
+                }));
+                console.log(JSON.stringify(rows, null, 2));
+
+
+                return result;
+
             } catch (err) {
-                console.error(`Error in getTaskAccessUser: ${err}`);
-                throw new Error("Failed to fetch users with task access.");
+                console.error("DB Error:", err);
+                throw new Error("Failed to fetch users with access");
             }
         }
     }
+
 
 };

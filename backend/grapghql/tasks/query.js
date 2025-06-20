@@ -1,6 +1,8 @@
-const { query } = require("express")
+const { typeDef: userTypeDefs } = require('./users/types');
 
-export const query = `#grapghql
+exports.queryType = `#graphql
+  extend type Query {
+  getTaskAccessUser: [getTaskAccessUserResponse!]!
+}
 
-
-`
+`;
