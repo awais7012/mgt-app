@@ -7,6 +7,10 @@ exports.typeDef = `#graphql
     email: String!
     profileImageURL: String
   }
+  type getTaskAccessUserResponse{
+    userId:ID!
+    user_role:String!
+  }
 
   type CreateUserResponse {
     success: Boolean!
@@ -14,7 +18,6 @@ exports.typeDef = `#graphql
     token: String
     user_role:String
   }
-
   input CreateUserInput {
     userName: String!
     userRole: String!

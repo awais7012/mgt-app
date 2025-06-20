@@ -12,7 +12,8 @@ import Signup from './pages/Auth/Signup';
 import Login from './pages/Auth/Login';
 import EmployeeDashboard from './pages/EmployeeDashboard';
 import { TeamLeadDashboard } from './pages/TeamLeadDashboard';
-import Admin from './pages/Admin'
+import Admin from './pages/Admin';
+import ProtectedRoute from './components/ProtectedRoute';
 
 const router = createBrowserRouter([
   {
@@ -28,18 +29,29 @@ const router = createBrowserRouter([
         element: <Signup />,
       },
       {
-        path: '/dashboard/EmployeeDashboard', // ✅ corrected spelling
-        element: <EmployeeDashboard />
+        path: '/dashboard/EmployeeDashboard',
+        element: (
+          // <ProtectedRoute>
+          <EmployeeDashboard />
+          // </ProtectedRoute>
+        ),
       },
       {
-        path: '/dashboard/TeamLeadDashboard', // ✅ also fix this one
-        element: <TeamLeadDashboard />
+        path: '/dashboard/TeamLeadDashboard',
+        element: (
+          <ProtectedRoute>
+            <TeamLeadDashboard />
+          </ProtectedRoute>
+        ),
       },
       {
         path: '/dashboard/admin',
-        element: <Admin />
-      }
-      // add other nested routes here
+        element: (
+          <ProtectedRoute>
+            <Admin />
+          </ProtectedRoute>
+        ),
+      },
     ],
   },
 ]);
